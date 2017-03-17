@@ -156,9 +156,9 @@ class Meta_Inspector {
 	public function post_meta() {
 
 		// Setup class for a post
-		$this->object_id = get_the_ID();
-		$this->type = 'post';
-		$this->meta_data = get_post_meta( $this->object_id );
+		Meta_Inspector::$object_id = get_the_ID();
+		Meta_Inspector::$type = 'post';
+		Meta_Inspector::$meta_data = get_post_meta( Meta_Inspector::$object_id );
 
 		// Generate table
 		$this->generate_meta_table();
@@ -175,9 +175,9 @@ class Meta_Inspector {
 		}
 
 		// Setup class for a post
-		$this->type = 'term';
-		$this->object_id = absint( $_GET['tag_ID' ] );
-		$this->meta_data = get_term_meta( $this->object_id );
+		Meta_Inspector::$type = 'term';
+		Meta_Inspector::$object_id = absint( $_GET['tag_ID' ] );
+		Meta_Inspector::$meta_data = get_term_meta( Meta_Inspector::$object_id );
 
 		// Generate table
 		$this->generate_meta_table();
@@ -190,18 +190,18 @@ class Meta_Inspector {
 
 		// Set $this->object_id to the user's ID
 		if ( defined('IS_PROFILE_PAGE') && IS_PROFILE_PAGE ) {
-			$this->object_id = get_current_user_id();
+			Meta_Inspector::$object_id = get_current_user_id();
 
 		} elseif ( isset( $_GET['user_id'] ) ) {
-			$this->object_id = absint( $_GET['user_id' ] );
+			Meta_Inspector::$object_id = absint( $_GET['user_id' ] );
 
 		} else {
 			return;
 		}
 
 		// Setup class for a post
-		$this->type = 'user';
-		$this->meta_data = get_user_meta( $this->object_id );
+		Meta_Inspector::$type = 'user';
+		Meta_Inspector::$meta_data = get_user_meta( Meta_Inspector::$object_id );
 
 		// Generate table
 		$this->generate_meta_table();
@@ -213,12 +213,12 @@ class Meta_Inspector {
 	public function generate_meta_table() {
 
 		// Ensure that meta data actually exists
-		if ( empty( $this->meta_data ) && ! is_array( $this->meta_data ) ) {
+		if ( empty( Meta_Inspector::$meta_data ) && ! is_array( Meta_Inspector::$meta_data ) ) {
 			return;
 		}
 
 		// Generate a title if needed
-		switch ( $this->type ) {
+		switch ( Meta_Inspector::$type ) {
 			case 'user' :
 				$title = __( 'User Meta', 'meta-inspector' );
 				break;
@@ -257,9 +257,9 @@ class Meta_Inspector {
 
 		<div
 			id="meta-inspector"
-			data-type="<?php echo esc_attr( $this->type ); ?>"
-			data-nonce="<?php echo esc_attr( wp_create_nonce( 'update-meta-' . $this->type ) ); ?>"
-			data-object-id="<?php echo esc_attr( $this->object_id ) ?>"
+			data-type="<?php echo esc_attr( Meta_Inspector::$type ); ?>"
+			data-nonce="<?php echo esc_attr( wp_create_nonce( 'update-meta-' . Meta_Inspector::$type ) ); ?>"
+			data-object-id="<?php echo esc_attr( Meta_Inspector::$object_id ) ?>"
 		>
 			<?php
 
@@ -279,7 +279,7 @@ class Meta_Inspector {
 				<tbody>
 					<?php
 					// Loop through all meta keys
-					foreach ( $this->meta_data as $key => $values ) {
+					foreach ( Meta_Inspector::$meta_data as $key => $values ) {
 
 						// Loop through values
 						foreach ( $values as $value ) {
@@ -296,9 +296,7 @@ class Meta_Inspector {
 										contenteditable="true"
 										data-key="<?php echo esc_attr( $key ); ?>"
 										data-original-value="<?php echo esc_attr( $value ); ?>"
-									>
-										<?php echo esc_html( $value ); ?>
-									</td>
+									><?php echo esc_html( $value ); ?></td>
 								</tr>
 
 							<?php
@@ -317,8 +315,8 @@ class Meta_Inspector {
 
 				// Capture current value on click
 				var metaField = jQuery(this);
-				var originalValue = metaField.data('original-value');
 				var key = metaField.data('key');
+				var originalValue = metaField.data('original-value');
 
 				// Get some meta values to update values properly
 				var wrapperDiv = jQuery('#meta-inspector');
@@ -330,7 +328,7 @@ class Meta_Inspector {
 				var newValue = metaField.text();
 
 				// Only save if values are different
-				if ( newValue !== originalValue ) {
+				if ( newValue.toString() !== originalValue.toString() ) {
 
 					// Build data
 					var data = {
