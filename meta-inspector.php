@@ -58,13 +58,10 @@ class Meta_Inspector {
 		add_action( 'wp_ajax_meta_inspector_update_meta_value', array( self::$instance, 'update_meta_value' ) );
 
 		// Add meta inspector to posts
+		add_action( 'add_meta_boxes', array( self::$instance, 'register_meta_box' ) );
+
 		add_action( 'add_meta_boxes', function(){
-			add_meta_box(
-				'meta-inspector-metabox',
-				__( 'Post Meta Inspector', 'meta-inspector' ),
-				array( self::$instance, 'post_meta' ),
-				get_post_type()
-			);
+
 		} );
 
 		// Hook into all registered taxonomies
@@ -77,6 +74,39 @@ class Meta_Inspector {
 		// Add meta inspector to users
 		add_action( 'edit_user_profile', array( self::$instance, 'user_meta'), 1000 );
 		add_action( 'show_user_profile', array( self::$instance, 'user_meta'), 1000 );
+	}
+
+	/**
+	 * Register Meta box for Display
+	 */
+	public function register_meta_box() {
+		$type = get_post_type();
+
+		// If we can't find a post type it's likely the comments page.
+		if ( empty( $type ) ) {
+			$type = get_current_screen()->id;
+		}
+
+		switch ( $type ) {
+			case 'comment' :
+				add_meta_box(
+					'meta-inspector-metabox',
+					__( 'Post Meta Inspector', 'meta-inspector' ),
+					array( self::$instance, 'comment_meta' ),
+					$type,
+					'normal'
+				);
+				break;
+
+			default:
+				add_meta_box(
+					'meta-inspector-metabox',
+					__( 'Post Meta Inspector', 'meta-inspector' ),
+					array( self::$instance, 'post_meta' ),
+					$type
+				);
+				break;
+		}
 	}
 
 	/**
@@ -180,6 +210,18 @@ class Meta_Inspector {
 		Meta_Inspector::$meta_data = get_term_meta( Meta_Inspector::$object_id );
 
 		// Generate table
+		$this->generate_meta_table();
+	}
+
+	/**
+	 * Get comment meta and generate the table
+	 */
+	public function comment_meta() {
+
+		Meta_Inspector::$type = 'comment';
+		Meta_Inspector::$object_id = get_comment_ID();
+		Meta_Inspector::$meta_data = get_comment_meta( Meta_Inspector::$object_id );
+
 		$this->generate_meta_table();
 	}
 
