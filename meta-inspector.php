@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Meta Inspector
  * Description: See post, term, and user meta values, and easily update them.
- * Author: Alley Interactive, James Burke
- * Version: 0.1
+ * Author: Alley Interactive, James Burke, Amy Evans
+ * Version: 0.2
  * Author URI: http://alleyinteractive.com
  */
 
@@ -53,6 +53,11 @@ class Meta_Inspector {
 	 * Replacement constructor for hooking actions
 	 */
 	private static function setup() {
+
+		// Allow access to admins only.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 
 		// Ajax endpoint to update meta data
 		add_action( 'wp_ajax_meta_inspector_update_meta_value', array( self::$instance, 'update_meta_value' ) );
