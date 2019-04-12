@@ -1,20 +1,17 @@
 === Plugin Name ===
-Contributors: alleyinteractive, jamesburke
+Contributors: alleyinteractive, jameswalterburke
 Tags: meta, post meta, term meta, user meta, tools
 Requires at least: 4.6
 Tested up to: 4.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Displays post, term, and user meta values.
+View various types of meta data about WordPress objects to assist debugging.
 
 == Description ==
 
-This Meta Inspector plugin is a more elaborate version of the Post Meta Inspector. In addition to post meta, it
-also displays term and user meta data.
-
-Lastly, you can easily update any meta value simply by clicking the meta field and editing inline. Meta will be
-saved when focus on the meta value changes.
+Easily see object data like meta and terms to fully understand what is
+happening behind the scenes.
 
 == Installation ==
 
@@ -22,6 +19,10 @@ saved when focus on the meta value changes.
 2. Activate the plugin through the 'Plugins' screen in WordPress
 
 == Changelog ==
+
+= 1.0 =
+Refactor of plugin and addition of term inspecting.
+Removal of meta editing.
 
 = 0.1 =
 * Inital commit of plugin
