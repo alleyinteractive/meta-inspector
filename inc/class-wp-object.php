@@ -36,7 +36,7 @@ abstract class WP_Object {
 		// Store meta.
 		$meta = [];
 
-		switch( $this->type ) {
+		switch ( $this->type ) {
 			case 'post':
 				$meta = get_post_meta( $this->object_id );
 				break;
@@ -50,7 +50,7 @@ abstract class WP_Object {
 				break;
 		}
 
-		// Build data array [ key, value ];
+		// Build data array [ key, value ].
 		foreach ( $meta as $key => $values ) {
 			foreach ( $values as $value ) {
 				$data[] = [

@@ -25,7 +25,7 @@ class Post extends WP_Object {
 	 * Initialize class.
 	 */
 	public function setup() {
-		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes'] );
+		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ] );
 	}
 
 	/**
@@ -83,7 +83,7 @@ class Post extends WP_Object {
 				]
 			);
 
-			// Build data array [ id, name, slug, taxonomy ];
+			// Build data array [ id, name, slug, taxonomy ].
 			foreach ( $terms as $term ) {
 				$data[] = [
 					$term->term_id,

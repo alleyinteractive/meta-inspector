@@ -30,9 +30,11 @@ class Term extends WP_Object {
 
 	/**
 	 * Add meta boxes to the term edit screen.
+	 *
+	 * @param string $taxonomy Taxonomy slug.
 	 */
 	public function tax_edit_form_action( $taxonomy ) {
-		add_action( "{$taxonomy}_edit_form", [ $this, 'add_meta_boxes'], 1000 );
+		add_action( "{$taxonomy}_edit_form", [ $this, 'add_meta_boxes' ], 1000 );
 	}
 
 	/**
@@ -40,13 +42,13 @@ class Term extends WP_Object {
 	 */
 	public function add_meta_boxes() {
 
-		// Ensure the term_id is set
+		// Ensure the term_id is set.
 		if ( ! isset( $_GET['tag_ID'] ) ) {
 			return;
 		}
 
 		// Store term id.
-		$this->object_id = absint( $_GET['tag_ID' ] );
+		$this->object_id = absint( $_GET['tag_ID'] );
 
 		// Render table of meta data.
 		$this->render_meta_table( __( 'Term Meta', 'meta-inspector' ) );

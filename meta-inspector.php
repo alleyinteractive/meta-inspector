@@ -4,7 +4,7 @@
  * Description:     View various types of meta data about WordPress objects to assist debugging.
  * Author:          alley, jameswalterburke
  * Author URI:      https://alley.co
- * Text Domain:     term-inspector
+ * Text Domain:     meta-inspector
  * Domain Path:     /languages
  * Version:         1.0.0
  *

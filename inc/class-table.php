@@ -7,6 +7,9 @@
 
 namespace Meta_Inspector;
 
+/**
+ * Table.
+ */
 class Table {
 
 	/**
@@ -38,7 +41,7 @@ class Table {
 	public static $css_has_output = false;
 
 	/**
-	 * Create a new table and render.
+	 * Initialize a new instance of this class.
 	 *
 	 * @param array $args {
 	 *        Optional. Arguments for the table. Default empty array.
@@ -47,10 +50,11 @@ class Table {
 	 *        @type array  $headers Table headers.
 	 *        @type array  $data    Table data.
 	 * }
+	 * @param bool  $render Render table immediately.
 	 */
 	public function __construct( array $args = [], bool $render = true ) {
 
-		// Parse args from constructor
+		// Parse args from constructor.
 		$args = wp_parse_args(
 			$args,
 			[
@@ -60,7 +64,7 @@ class Table {
 			]
 		);
 
-		// Store data
+		// Store data.
 		$this->data    = (array) $args['data'];
 		$this->headers = (array) $args['headers'];
 		$this->title   = (string) $args['title'];
@@ -76,9 +80,9 @@ class Table {
 	 */
 	public function render() {
 
-		// Render the CSS in the footer
+		// Render the CSS in the footer.
 		if ( ! self::$css_has_output ) {
-			add_action('admin_footer', [ $this, 'output_css' ] );
+			add_action( 'admin_footer', [ $this, 'output_css' ] );
 		}
 
 		?>
@@ -91,7 +95,7 @@ class Table {
 					$this->output_data();
 					?>
 				</table>
-			<?php else: ?>
+			<?php else : ?>
 				<p><?php esc_html_e( 'No data found', 'meta-inspector' ); ?></p>
 			<?php endif; ?>
 		</div>

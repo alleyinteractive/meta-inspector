@@ -34,10 +34,13 @@ class User extends WP_Object {
 	 */
 	public function add_meta_boxes() {
 
-		if ( defined('IS_PROFILE_PAGE') && IS_PROFILE_PAGE ) {
+		if (
+			defined( 'IS_PROFILE_PAGE' )
+			&& IS_PROFILE_PAGE
+		) {
 			$this->object_id = get_current_user_id();
 		} elseif ( isset( $_GET['user_id'] ) ) {
-			$this->object_id = absint( $_GET['user_id' ] );
+			$this->object_id = absint( $_GET['user_id'] );
 		} else {
 			return;
 		}
