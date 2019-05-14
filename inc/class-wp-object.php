@@ -51,6 +51,7 @@ abstract class WP_Object {
 		}
 
 		// Build data array [ key, value ].
+		$data = [];
 		foreach ( $meta as $key => $values ) {
 			foreach ( $values as $value ) {
 				$data[] = [
