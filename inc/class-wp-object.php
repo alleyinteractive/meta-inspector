@@ -48,6 +48,10 @@ abstract class WP_Object {
 			case 'user':
 				$meta = (array) get_user_meta( $this->object_id );
 				break;
+
+			case 'comment':
+				$meta = (array) get_comment_meta( $this->object_id );
+				break;
 		}
 
 		// Build data array [ key, value ].
