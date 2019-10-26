@@ -160,9 +160,10 @@ class Table {
 				function( $row ) {
 					echo '<tr>';
 					array_map(
-						function( $data ) {
+						function ( $data ) use ( $row ) {
 							printf(
-								'<td contenteditable="true">%1$s</td>',
+								'<td contenteditable="%1$s">%2$s</td>',
+								apply_filters( 'meta_inspector_editable_data_row', true, $row ) ? 'true' : 'false',
 								esc_html( $data )
 							);
 						},
