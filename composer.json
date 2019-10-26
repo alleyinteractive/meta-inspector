@@ -1,0 +1,11 @@
+{
+  "name": "alleyinteractive/meta-inspector",
+  "description": "View various types of meta data about WordPress objects to assist debugging.",
+  "type": "wordpress-plugin",
+  "keywords": ["wordpress", "plugin", "meta", "post-meta", "developer"],
+  "homepage": "https://github.com/alleyinteractive/meta-inspector/",
+  "license" : "GPL-3.0+",
+  "require": {
+    "composer/installers": "~1.0"
+  }
+}
