@@ -27,7 +27,9 @@
 	<exclude-pattern>*/vendor/</exclude-pattern>
 	<exclude-pattern>tests/</exclude-pattern>
 
-	<rule ref="WordPress" />
+	<rule ref="WordPress">
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax.Found" />
+	</rule>
 
 	<!-- The version set here matches the minimum version tested in .travis.yml.  -->
 	<config name="minimum_supported_wp_version" value="4.9" />

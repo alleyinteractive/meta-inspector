@@ -33,6 +33,11 @@ class Comment extends WP_Object {
 	 */
 	public function add_meta_boxes() {
 
+		// Bail if we don't have comments.
+		if ( ! have_comments() ) {
+			return;
+		}
+
 		// Store comment ID.
 		$this->object_id = get_comment_ID();
 
