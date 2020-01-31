@@ -44,7 +44,7 @@ abstract class WP_Object {
 			case 'term':
 				$meta = (array) get_term_meta( $this->object_id );
 				$fm_term_meta = [];
-				if ( function_exists( 'fm_get_term_meta') ) {
+				if ( function_exists( 'fm_get_term_meta' ) ) {
 					$term = get_term( $this->object_id );
 					$fm_term_meta = (array) fm_get_term_meta( $this->object_id, $term->taxonomy );
 				}
