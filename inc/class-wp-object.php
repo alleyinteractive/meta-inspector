@@ -43,12 +43,6 @@ abstract class WP_Object {
 
 			case 'term':
 				$meta = (array) get_term_meta( $this->object_id );
-				$fm_term_meta = [];
-				if ( function_exists( 'fm_get_term_meta' ) ) {
-					$term = get_term( $this->object_id );
-					$fm_term_meta = (array) fm_get_term_meta( $this->object_id, $term->taxonomy );
-				}
-				$meta = array_merge( $meta, $fm_term_meta );
 				break;
 
 			case 'user':
@@ -57,6 +51,17 @@ abstract class WP_Object {
 
 			case 'comment':
 				$meta = (array) get_comment_meta( $this->object_id );
+				break;
+
+			case 'fm-term-meta':
+				if ( function_exists( 'fm_get_term_meta' ) ) {
+					$term = get_term( $this->object_id );
+					$meta = (array) fm_get_term_meta( $this->object_id, $term->taxonomy );
+					if ( empty( $meta ) ) {
+						// Do not display FM Term Meta table on terms without this meta.
+						return;
+					}
+				}
 				break;
 		}
 
