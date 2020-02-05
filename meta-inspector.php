@@ -35,6 +35,7 @@ require_once META_INSPECTOR_PATH . '/inc/objects/class-post.php';
 require_once META_INSPECTOR_PATH . '/inc/objects/class-term.php';
 require_once META_INSPECTOR_PATH . '/inc/objects/class-user.php';
 require_once META_INSPECTOR_PATH . '/inc/objects/class-comment.php';
+require_once META_INSPECTOR_PATH . '/inc/objects/class-fm-term-meta.php';
 
 // Initalize classes.
 add_action(
@@ -46,6 +47,8 @@ add_action(
 			Term::instance();
 			User::instance();
 			Comment::instance();
+			// Legacy FM Term Meta Data support.
+			Fm_Term_Meta::instance();
 		}
 	}
 );
