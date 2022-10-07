@@ -1,11 +1,34 @@
 {
   "name": "alleyinteractive/meta-inspector",
   "description": "View various types of meta data about WordPress objects to assist debugging.",
+  "license": "GPL-3.0+",
   "type": "wordpress-plugin",
-  "keywords": ["wordpress", "plugin", "meta", "post-meta", "developer"],
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "meta",
+    "post-meta",
+    "developer"
+  ],
   "homepage": "https://github.com/alleyinteractive/meta-inspector/",
-  "license" : "GPL-3.0+",
   "require": {
-    "composer/installers": "~1.0"
+    "php": "^7.4|^8.0"
+  },
+  "require-dev": {
+    "alleyinteractive/alley-coding-standards": "^0.3"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "scripts": {
+    "phpcbf": "phpcbf .",
+    "phpcs": "phpcs .",
+    "test": [
+      "@phpcs"
+    ]
   }
 }
