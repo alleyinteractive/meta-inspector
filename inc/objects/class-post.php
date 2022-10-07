@@ -39,7 +39,7 @@ class Post extends WP_Object {
 		add_meta_box(
 			'meta-inspector-post-meta',
 			__( 'Meta', 'meta-inspector' ),
-			[ $this, 'render_meta' ],
+			fn () => $this->render_meta_table(),
 			get_post_type()
 		);
 
@@ -50,13 +50,6 @@ class Post extends WP_Object {
 			[ $this, 'render_terms' ],
 			get_post_type()
 		);
-	}
-
-	/**
-	 * Render a table of post meta.
-	 */
-	public function render_meta() {
-		$this->render_meta_table();
 	}
 
 	/**

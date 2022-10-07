@@ -41,6 +41,13 @@ class Table {
 	public static $css_has_output = false;
 
 	/**
+	 * Flag to hide the table if there is no data.
+	 *
+	 * @var boolean
+	 */
+	public $hide_empty = false;
+
+	/**
 	 * Initialize a new instance of this class.
 	 *
 	 * @param array $args {
@@ -51,8 +58,9 @@ class Table {
 	 *        @type array  $data    Table data.
 	 * }
 	 * @param bool  $render Render table immediately.
+	 * @param bool  $hide_empty Hide table if there is no data.
 	 */
-	public function __construct( array $args = [], bool $render = true ) {
+	public function __construct( array $args = [], bool $render = true, bool $hide_empty = false ) {
 
 		// Parse args from constructor.
 		$args = wp_parse_args(
@@ -68,6 +76,8 @@ class Table {
 		$this->data    = (array) $args['data'];
 		$this->headers = (array) $args['headers'];
 		$this->title   = (string) $args['title'];
+
+		$this->hide_empty = $hide_empty;
 
 		// Render by default.
 		if ( $render ) {
@@ -87,7 +97,10 @@ class Table {
 
 		?>
 		<div class="meta-inspector">
-			<?php $this->output_title(); ?>
+			<?php if ( ! empty( $this->data ) || ! $this->hide_empty ) : ?>
+				<?php $this->output_title(); ?>
+			<?php endif; ?>
+
 			<?php if ( ! empty( $this->data ) ) : ?>
 				<table>
 					<?php
@@ -95,7 +108,7 @@ class Table {
 					$this->output_data();
 					?>
 				</table>
-			<?php else : ?>
+			<?php elseif ( ! $this->hide_empty ) : ?>
 				<p><?php esc_html_e( 'No data found', 'meta-inspector' ); ?></p>
 			<?php endif; ?>
 		</div>
