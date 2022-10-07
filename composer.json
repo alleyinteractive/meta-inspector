@@ -5,9 +5,7 @@
   "type": "wordpress-plugin",
   "keywords": [
     "wordpress",
-    "plugin",
-    "meta",
-    "post-meta",
+    "wordpress-plugin",
     "developer"
   ],
   "homepage": "https://github.com/alleyinteractive/meta-inspector/",
