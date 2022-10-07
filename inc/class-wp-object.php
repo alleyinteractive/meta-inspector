@@ -71,7 +71,7 @@ abstract class WP_Object {
 			foreach ( $values as $value ) {
 				$data[] = [
 					$key,
-					substr( var_export( $value, true ), 1, -1 ),
+					substr( var_export( $value, true ), 1, -1 ), // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
 				];
 			}
 		}
@@ -81,8 +81,8 @@ abstract class WP_Object {
 			[
 				'data'    => $data,
 				'headers' => [
-					esc_html__( 'Key', 'meta-inspector' ),
-					esc_html__( 'Value', 'meta-inspector' ),
+					__( 'Key', 'meta-inspector' ),
+					__( 'Value', 'meta-inspector' ),
 				],
 				'title'   => $title,
 			]

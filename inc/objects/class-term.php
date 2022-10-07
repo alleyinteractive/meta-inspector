@@ -11,7 +11,6 @@ namespace Meta_Inspector;
  * Inspect meta for terms.
  */
 class Term extends WP_Object {
-
 	use Singleton;
 
 	/**
@@ -24,7 +23,7 @@ class Term extends WP_Object {
 	/**
 	 * Initialize class.
 	 */
-	public function setup() {
+	protected function __construct() {
 		add_action( 'registered_taxonomy', [ $this, 'tax_edit_form_action' ], 1000 );
 	}
 
@@ -41,14 +40,13 @@ class Term extends WP_Object {
 	 * Render a table of post meta.
 	 */
 	public function add_meta_boxes() {
-
 		// Ensure the term_id is set.
-		if ( ! isset( $_GET['tag_ID'] ) ) {
+		if ( ! isset( $_GET['tag_ID'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 
 		// Store term id.
-		$this->object_id = absint( $_GET['tag_ID'] );
+		$this->object_id = absint( $_GET['tag_ID'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		// Render table of meta data.
 		$this->render_meta_table( __( 'Term Meta', 'meta-inspector' ) );

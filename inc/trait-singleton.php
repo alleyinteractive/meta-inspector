@@ -11,31 +11,25 @@ namespace Meta_Inspector;
  * Singleton trait.
  */
 trait Singleton {
-
 	/**
-	 * Class instance.
+	 * Existing instances.
 	 *
-	 * @var null|self
+	 * @var array
 	 */
-	protected static $instance;
+	protected static $instances = [];
 
 	/**
-	 * Get class instance
+	 * Get class instance.
 	 *
-	 * @return self
+	 * @return static
 	 */
 	public static function instance() {
-		if ( ! isset( static::$instance ) ) {
-			static::$instance = new static();
-			static::$instance->setup();
-		}
-		return static::$instance;
-	}
+		$class = get_called_class();
 
-	/**
-	 * Setup the singleton.
-	 */
-	public function setup() {
-		// Silence.
+		if ( ! isset( static::$instances[ $class ] ) ) {
+			static::$instances[ $class ] = new static();
+		}
+
+		return self::$instances[ $class ];
 	}
 }

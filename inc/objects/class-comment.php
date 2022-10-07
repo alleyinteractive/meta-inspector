@@ -11,7 +11,6 @@ namespace Meta_Inspector;
  * Inspect meta for users.
  */
 class Comment extends WP_Object {
-
 	use Singleton;
 
 	/**
@@ -24,7 +23,7 @@ class Comment extends WP_Object {
 	/**
 	 * Initialize class.
 	 */
-	public function setup() {
+	protected function __construct() {
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ] );
 	}
 
