@@ -69,10 +69,11 @@ abstract class WP_Object {
 		$data = [];
 		foreach ( $meta as $key => $values ) {
 			foreach ( $values as $value ) {
-				$data[] = [
-					$key,
-					substr( var_export( $value, true ), 1, -1 ), // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
-				];
+				if ( is_serialized( $value ) ) {
+					$value = maybe_unserialize( $value );
+				}
+
+				$data[] = [ $key, $value ];
 			}
 		}
 

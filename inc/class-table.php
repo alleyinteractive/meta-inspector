@@ -177,7 +177,7 @@ class Table {
 							printf(
 								'<td contenteditable="%1$s">%2$s</td>',
 								apply_filters( 'meta_inspector_editable_data_row', true, $row ) ? 'true' : 'false',
-								esc_html( $data )
+								is_scalar( $data ) ? esc_html( $data ) : '<pre>' . esc_html( var_export( $data, true ) ) . '</pre>' // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export, WordPress.Security.EscapeOutput.OutputNotEscaped
 							);
 						},
 						$row
