@@ -12,13 +12,18 @@
   ],
   "homepage": "https://github.com/alleyinteractive/meta-inspector/",
   "require": {
-    "php": "^7.4|^8.0"
+    "php": "^7.4 || ^8.0"
   },
   "require-dev": {
     "alleyinteractive/alley-coding-standards": "^0.3"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
+  "autoload": {
+    "files": [
+      "meta-inspector.php"
+    ]
+  },
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
