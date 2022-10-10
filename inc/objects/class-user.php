@@ -11,7 +11,6 @@ namespace Meta_Inspector;
  * Inspect meta for users.
  */
 class User extends WP_Object {
-
 	use Singleton;
 
 	/**
@@ -24,7 +23,7 @@ class User extends WP_Object {
 	/**
 	 * Initialize class.
 	 */
-	public function setup() {
+	protected function __construct() {
 		add_action( 'edit_user_profile', [ $this, 'add_meta_boxes' ], 1000 );
 		add_action( 'show_user_profile', [ $this, 'add_meta_boxes' ], 1000 );
 	}
@@ -39,8 +38,8 @@ class User extends WP_Object {
 			&& IS_PROFILE_PAGE
 		) {
 			$this->object_id = get_current_user_id();
-		} elseif ( isset( $_GET['user_id'] ) ) {
-			$this->object_id = absint( $_GET['user_id'] );
+		} elseif ( isset( $_GET['user_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$this->object_id = absint( $_GET['user_id'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		} else {
 			return;
 		}

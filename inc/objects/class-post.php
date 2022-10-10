@@ -11,7 +11,6 @@ namespace Meta_Inspector;
  * Inspect meta and terms for posts.
  */
 class Post extends WP_Object {
-
 	use Singleton;
 
 	/**
@@ -24,7 +23,7 @@ class Post extends WP_Object {
 	/**
 	 * Initialize class.
 	 */
-	public function setup() {
+	protected function __construct() {
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ] );
 	}
 
@@ -40,7 +39,7 @@ class Post extends WP_Object {
 		add_meta_box(
 			'meta-inspector-post-meta',
 			__( 'Meta', 'meta-inspector' ),
-			[ $this, 'render_meta' ],
+			fn () => $this->render_meta_table(),
 			get_post_type()
 		);
 
@@ -54,19 +53,21 @@ class Post extends WP_Object {
 	}
 
 	/**
-	 * Render a table of post meta.
-	 */
-	public function render_meta() {
-		$this->render_meta_table();
-	}
-
-	/**
 	 * Render a table of post terms.
 	 */
 	public function render_terms() {
 
 		// Get taxonomies for this post.
 		$taxonomies = get_post_taxonomies( $this->object_id );
+
+		if ( empty( $taxonomies ) ) {
+			printf(
+				'<p>%s</p>',
+				esc_html__( 'No taxonomies registered for this post type.', 'meta-inspector' )
+			);
+
+			return;
+		}
 
 		// Loop through taxonomies and terms and build data array.
 		foreach ( $taxonomies as $taxonomy ) {

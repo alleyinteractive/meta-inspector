@@ -30,9 +30,9 @@ abstract class WP_Object {
 	 * Helper to automagically render a meta table for the current type and id.
 	 *
 	 * @param string $title Optional table title.
+	 * @param bool   $hide_empty Optional flag to hide the meta box if there is no meta.
 	 */
-	public function render_meta_table( string $title = '' ) {
-
+	public function render_meta_table( string $title = '', bool $hide_empty = false ) {
 		// Store meta.
 		$meta = [];
 
@@ -69,10 +69,11 @@ abstract class WP_Object {
 		$data = [];
 		foreach ( $meta as $key => $values ) {
 			foreach ( $values as $value ) {
-				$data[] = [
-					$key,
-					substr( var_export( $value, true ), 1, -1 ),
-				];
+				if ( is_serialized( $value ) ) {
+					$value = maybe_unserialize( $value );
+				}
+
+				$data[] = [ $key, $value ];
 			}
 		}
 
@@ -81,11 +82,13 @@ abstract class WP_Object {
 			[
 				'data'    => $data,
 				'headers' => [
-					esc_html__( 'Key', 'meta-inspector' ),
-					esc_html__( 'Value', 'meta-inspector' ),
+					__( 'Key', 'meta-inspector' ),
+					__( 'Value', 'meta-inspector' ),
 				],
 				'title'   => $title,
-			]
+			],
+			true,
+			$hide_empty
 		);
 	}
 }
