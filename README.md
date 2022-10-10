@@ -1,4 +1,4 @@
-# meta-inspector
+# Meta Inspector
 
 Stable tag: 1.0.0
 
