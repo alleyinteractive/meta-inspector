@@ -31,7 +31,6 @@ class Table {
 	 * Output the current state of the table.
 	 */
 	public function render() {
-
 		// Render the CSS in the footer.
 		if ( ! has_action( 'admin_footer', [ __CLASS__, 'output_css' ] ) ) {
 			add_action( 'admin_footer', [ __CLASS__, 'output_css' ] );
@@ -44,14 +43,14 @@ class Table {
 			<?php endif; ?>
 
 			<?php if ( ! empty( $this->data ) ) : ?>
-				<table>
+				<table class="meta-inspector-table meta-inspector-table--cols-<?php echo (int) count( $this->headers ); ?>">
 					<?php
 					$this->output_headers();
 					$this->output_data();
 					?>
 				</table>
 			<?php elseif ( ! $this->hide_empty ) : ?>
-				<p><?php esc_html_e( 'No data found', 'meta-inspector' ); ?></p>
+				<p><?php esc_html_e( 'No data found.', 'meta-inspector' ); ?></p>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -125,11 +124,9 @@ class Table {
 				text-align: left;
 				width: 100%;
 			}
-			.meta-inspector table thead tr td:first-child {
+			.meta-inspector table.meta-inspector-table--cols-2 th:first-child,
+			.meta-inspector table.meta-inspector-table--cols-2 td:first-child {
 				width: 25%;
-			}
-			.meta-inspector table thead tr td:last-child {
-				width: 75%;
 			}
 			.meta-inspector table tbody tr td {
 				padding: 10px;
