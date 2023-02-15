@@ -10,7 +10,7 @@
   ],
   "homepage": "https://github.com/alleyinteractive/meta-inspector/",
   "require": {
-    "php": "^7.4 || ^8.0"
+    "php": "^8.0"
   },
   "require-dev": {
     "alleyinteractive/alley-coding-standards": "^0.3"
