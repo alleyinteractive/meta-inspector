@@ -126,7 +126,7 @@ class Table {
 			}
 			.meta-inspector table.meta-inspector-table--cols-2 th:first-child,
 			.meta-inspector table.meta-inspector-table--cols-2 td:first-child {
-				width: 25%;
+				width: 33%;
 			}
 			.meta-inspector table tbody tr td {
 				padding: 10px;
