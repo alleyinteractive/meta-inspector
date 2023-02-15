@@ -11,64 +11,20 @@ namespace Meta_Inspector;
  * Table to Display Data
  */
 class Table {
-
-	/**
-	 * Table title.
-	 *
-	 * @var string
-	 */
-	public string $title = '';
-
-	/**
-	 * Table headers.
-	 *
-	 * @var array
-	 */
-	public array $headers = [];
-
-	/**
-	 * Table data.
-	 *
-	 * @var array
-	 */
-	public array $data = [];
-
 	/**
 	 * Initialize a new instance of this class.
 	 *
-	 * @param array $args {
-	 *        Optional. Arguments for the table. Default empty array.
-	 *
-	 *        @type string $title   Table title.
-	 *        @type array  $headers Table headers.
-	 *        @type array  $data    Table data.
-	 * }
-	 * @param bool  $render Render table immediately.
-	 * @param bool  $hide_empty Hide table if there is no data.
+	 * @param array  $data       Table data.
+	 * @param array  $headers    Table headers.
+	 * @param string $title      Table title.
+	 * @param bool   $hide_empty Optional flag to hide the table if there is no data.
 	 */
-	public function __construct( array $args = [], bool $render = true, public bool $hide_empty = false ) {
-
-		// Parse args from constructor.
-		$args = wp_parse_args(
-			$args,
-			[
-				'data'    => [],
-				'headers' => [],
-				'title'   => '',
-			]
-		);
-
-		// Store data.
-		$this->data    = (array) $args['data'];
-		$this->headers = (array) $args['headers'];
-		$this->title   = (string) $args['title'];
-
-		$this->hide_empty = $hide_empty;
-
-		// Render by default.
-		if ( $render ) {
-			$this->render();
-		}
+	public function __construct(
+		public array $data,
+		public array $headers,
+		public string $title,
+		public bool $hide_empty = false,
+	) {
 	}
 
 	/**
@@ -179,13 +135,15 @@ class Table {
 				padding: 10px;
 				word-wrap: break-word;
 				user-select: all;
-			}
-			.meta-inspector table tbody tr td:first-child {
 				vertical-align: top;
 			}
 			.meta-inspector table tbody tr td:last-child {
 				background: rgba( 100, 100, 100, .15 );
 				line-height: 1.5rem;
+			}
+			.meta-inspector pre {
+				overflow-y: scroll;
+				margin: -5px -10px -5px 0;
 			}
 		</style>
 		<?php
@@ -201,11 +159,13 @@ class Table {
 	 * @return string
 	 */
 	protected function format_value_for_output( $value ): string {
-		// Try to decode JSON and pretty-print it.
-		$json = json_decode( $value, true );
+		if ( is_string( $value ) ) {
+			// Try to decode JSON and pretty-print it.
+			$json = json_decode( $value, true );
 
-		if ( json_last_error() === JSON_ERROR_NONE ) {
-			return '<pre>' . esc_html( json_encode( $json, JSON_PRETTY_PRINT ) ) . '</pre>'; // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
+			if ( json_last_error() === JSON_ERROR_NONE ) {
+				return '<pre>' . esc_html( json_encode( $json, JSON_PRETTY_PRINT ) ) . '</pre>'; // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
+			}
 		}
 
 		if ( is_scalar( $value ) ) {

@@ -94,18 +94,26 @@ class Post extends WP_Object {
 				];
 			}
 
-			new Table(
+			$taxonomy_object = get_taxonomy( $taxonomy );
+
+			if ( empty( $taxonomy_object ) ) {
+				continue;
+			}
+
+			( new Table(
+				$data,
 				[
-					'data'    => $data,
-					'headers' => [
-						esc_html__( 'ID', 'meta-inspector' ),
-						esc_html__( 'Name', 'meta-inspector' ),
-						esc_html__( 'Slug', 'meta-inspector' ),
-						esc_html__( 'Taxonomy', 'meta-inspector' ),
-					],
-					'title'   => $taxonomy,
-				]
-			);
+					__( 'ID', 'meta-inspector' ),
+					__( 'Name', 'meta-inspector' ),
+					__( 'Slug', 'meta-inspector' ),
+					__( 'Taxonomy', 'meta-inspector' ),
+				],
+				sprintf(
+					/* translators: %s: taxonomy name */
+					__( 'Taxonomy: %s', 'meta-inspector' ),
+					$taxonomy_object->label ?? ucfirst( $taxonomy ),
+				),
+			) )->render();
 		}
 	}
 }
