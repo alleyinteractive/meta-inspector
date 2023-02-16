@@ -8,91 +8,32 @@
 namespace Meta_Inspector;
 
 /**
- * Table.
+ * Table to Display Data
  */
 class Table {
-
-	/**
-	 * Table title.
-	 *
-	 * @var string
-	 */
-	public $title = '';
-
-	/**
-	 * Table headers.
-	 *
-	 * @var array
-	 */
-	public $headers = [];
-
-	/**
-	 * Table data.
-	 *
-	 * @var array
-	 */
-	public $data = [];
-
-	/**
-	 * Determine if the CSS has already been output.
-	 *
-	 * @var boolean
-	 */
-	public static $css_has_output = false;
-
-	/**
-	 * Flag to hide the table if there is no data.
-	 *
-	 * @var boolean
-	 */
-	public $hide_empty = false;
-
 	/**
 	 * Initialize a new instance of this class.
 	 *
-	 * @param array $args {
-	 *        Optional. Arguments for the table. Default empty array.
-	 *
-	 *        @type string $title   Table title.
-	 *        @type array  $headers Table headers.
-	 *        @type array  $data    Table data.
-	 * }
-	 * @param bool  $render Render table immediately.
-	 * @param bool  $hide_empty Hide table if there is no data.
+	 * @param array  $data       Table data.
+	 * @param array  $headers    Table headers.
+	 * @param string $title      Table title.
+	 * @param bool   $hide_empty Optional flag to hide the table if there is no data.
 	 */
-	public function __construct( array $args = [], bool $render = true, bool $hide_empty = false ) {
-
-		// Parse args from constructor.
-		$args = wp_parse_args(
-			$args,
-			[
-				'data'    => [],
-				'headers' => [],
-				'title'   => '',
-			]
-		);
-
-		// Store data.
-		$this->data    = (array) $args['data'];
-		$this->headers = (array) $args['headers'];
-		$this->title   = (string) $args['title'];
-
-		$this->hide_empty = $hide_empty;
-
-		// Render by default.
-		if ( $render ) {
-			$this->render();
-		}
+	public function __construct(
+		public array $data,
+		public array $headers,
+		public string $title,
+		public bool $hide_empty = false,
+	) {
 	}
 
 	/**
 	 * Output the current state of the table.
 	 */
 	public function render() {
-
 		// Render the CSS in the footer.
-		if ( ! self::$css_has_output ) {
-			add_action( 'admin_footer', [ $this, 'output_css' ] );
+		if ( ! has_action( 'admin_footer', [ __CLASS__, 'output_css' ] ) ) {
+			add_action( 'admin_footer', [ __CLASS__, 'output_css' ] );
 		}
 
 		?>
@@ -102,14 +43,14 @@ class Table {
 			<?php endif; ?>
 
 			<?php if ( ! empty( $this->data ) ) : ?>
-				<table>
+				<table class="meta-inspector-table meta-inspector-table--cols-<?php echo (int) count( $this->headers ); ?>">
 					<?php
 					$this->output_headers();
 					$this->output_data();
 					?>
 				</table>
 			<?php elseif ( ! $this->hide_empty ) : ?>
-				<p><?php esc_html_e( 'No data found', 'meta-inspector' ); ?></p>
+				<p><?php esc_html_e( 'No data found.', 'meta-inspector' ); ?></p>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -120,10 +61,7 @@ class Table {
 	 */
 	public function output_title() {
 		if ( ! empty( $this->title ) ) {
-			printf(
-				'<h3>%1$s</h3>',
-				esc_html( $this->title )
-			);
+			printf( '<h3>%s</h3>', esc_html( $this->title ) );
 		}
 	}
 
@@ -131,8 +69,6 @@ class Table {
 	 * Output the table head.
 	 */
 	public function output_headers() {
-
-		// Validate headers.
 		if ( empty( $this->headers ) ) {
 			return;
 		}
@@ -142,12 +78,7 @@ class Table {
 			<tr>
 				<?php
 				array_map(
-					function( $header ) {
-						printf(
-							'<th>%1$s</th>',
-							esc_html( $header )
-						);
-					},
+					fn ( $header ) => printf( '<th>%1$s</th>', esc_html( $header ) ),
 					$this->headers
 				);
 				?>
@@ -160,8 +91,6 @@ class Table {
 	 * Output the table body.
 	 */
 	public function output_data() {
-
-		// Validate data.
 		if ( empty( $this->data ) ) {
 			return;
 		}
@@ -173,17 +102,11 @@ class Table {
 				function( $row ) {
 					echo '<tr>';
 					array_map(
-						function ( $data ) use ( $row ) {
-							printf(
-								'<td contenteditable="%1$s">%2$s</td>',
-								apply_filters( 'meta_inspector_editable_data_row', true, $row ) ? 'true' : 'false',
-								is_scalar( $data ) ? esc_html( $data ) : '<pre>' . esc_html( var_export( $data, true ) ) . '</pre>' // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export, WordPress.Security.EscapeOutput.OutputNotEscaped
-							);
-						},
-						$row
+						fn ( $data ) => printf( '<td>%s</td>', $this->format_value_for_output( $data ) ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						$row,
 					);
 				},
-				$this->data
+				$this->data,
 			)
 			?>
 		</tbody>
@@ -193,33 +116,59 @@ class Table {
 	/**
 	 * Output some inline CSS.
 	 */
-	public function output_css() {
-		echo '
+	public static function output_css() {
+		?>
 		<style>
 			.meta-inspector table {
 				table-layout: fixed;
 				text-align: left;
 				width: 100%;
 			}
-			.meta-inspector table thead tr td:first-child {
-				width: 25%;
-			}
-			.meta-inspector table thead tr td:last-child {
-				width: 70%;
+			.meta-inspector table.meta-inspector-table--cols-2 th:first-child,
+			.meta-inspector table.meta-inspector-table--cols-2 td:first-child {
+				width: 33%;
 			}
 			.meta-inspector table tbody tr td {
-				padding-bottom: .5rem;
-			}
-			.meta-inspector table tbody tr td:first-child {
+				padding: 10px;
 				word-wrap: break-word;
+				user-select: all;
+				vertical-align: top;
 			}
 			.meta-inspector table tbody tr td:last-child {
 				background: rgba( 100, 100, 100, .15 );
 				line-height: 1.5rem;
-				padding: 10px;
-				word-wrap: break-word;
+			}
+			.meta-inspector pre {
+				overflow-y: scroll;
+				margin: -5px -10px -5px 0;
 			}
 		</style>
-		';
+		<?php
+	}
+
+	/**
+	 * Output a formatted cell value.
+	 *
+	 * For scalar values, this will use var_export() to improve readability. For
+	 * JSON, this will use json_encode() to improve readability.
+	 *
+	 * @param mixed $value Cell value.
+	 * @return string
+	 */
+	protected function format_value_for_output( $value ): string {
+		if ( is_string( $value ) ) {
+			// Try to decode JSON and pretty-print it.
+			$json = json_decode( $value, true );
+
+			if ( json_last_error() === JSON_ERROR_NONE ) {
+				return '<pre>' . esc_html( json_encode( $json, JSON_PRETTY_PRINT ) ) . '</pre>'; // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
+			}
+		}
+
+		if ( is_scalar( $value ) ) {
+			return esc_html( $value );
+		}
+
+		return '<pre>' . esc_html( var_export( $value, true ) ) . '</pre>'; // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
 	}
 }

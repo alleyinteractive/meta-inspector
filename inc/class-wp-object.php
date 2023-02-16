@@ -78,17 +78,14 @@ abstract class WP_Object {
 		}
 
 		// Render table.
-		new Table(
+		( new Table(
+			$data,
 			[
-				'data'    => $data,
-				'headers' => [
-					__( 'Key', 'meta-inspector' ),
-					__( 'Value', 'meta-inspector' ),
-				],
-				'title'   => $title,
+				__( 'Key', 'meta-inspector' ),
+				__( 'Value', 'meta-inspector' ),
 			],
-			true,
-			$hide_empty
-		);
+			$title,
+			$hide_empty,
+		) )->render();
 	}
 }
