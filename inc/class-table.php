@@ -264,6 +264,10 @@ class Table {
 						if (this.classList.contains('collapsed')) {
 							this.classList.remove('collapsed');
 							this.classList.add('expanded');
+
+							if (expandLink) {
+								expandLink.style.display = 'none';
+							}
 						} else {
 							this.classList.remove('expanded');
 							this.classList.add('collapsed');
