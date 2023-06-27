@@ -214,6 +214,7 @@ class Table {
 				opacity: 0;
 				position: absolute;
 				text-shadow: 1px 1px 1px white;
+				transition: opacity 500ms ease;
 				z-index: 2;
 			}
 		</style>
