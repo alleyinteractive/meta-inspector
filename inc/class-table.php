@@ -131,7 +131,7 @@ class Table {
 	/**
 	 * Output some inline CSS.
 	 */
-	public static function output_footer() {
+	public static function output_footer(): void {
 		?>
 		<style>
 			.meta-inspector table {
