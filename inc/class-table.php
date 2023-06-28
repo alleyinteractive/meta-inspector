@@ -219,7 +219,7 @@ class Table {
 			}
 		</style>
 		<script type="text/javascript">
-			document.addEventListener('DOMContentLoaded', function() {
+			var setupMetaInspector = function() {
 				var copyButtons = document.querySelectorAll('.meta-inspector button.copy-button')
 				copyButtons.forEach(function(button) {
 					button.addEventListener('click', function (event) {
@@ -241,8 +241,8 @@ class Table {
 				// Collapse pre elements that are taller than the max height.
 				document.querySelectorAll('.meta-inspector pre').forEach(function(pre) {
 					var expandLink = pre.parentNode.querySelector('.expand-link');
-
-					if (pre.offsetHeight < maxPreHeight) {
+					console.log('pre', jQuery(pre).height(), maxPreHeight);
+					if (pre.clientHeight < maxPreHeight) {
 						// Remove the expand link if the pre element is not tall enough.
 						if (expandLink) {
 							expandLink.parentNode.removeChild(expandLink);
@@ -279,6 +279,23 @@ class Table {
 						}
 					});
 				});
+			};
+
+			document.addEventListener('DOMContentLoaded', function() {
+				// Handle Gutenberg loading meta boxes a bit slower.
+				if (document.querySelector('.block-editor-page')) {
+					const unsubscribeListener = wp.data.subscribe(() => {
+						if (
+							wp.data.select('core/edit-post').areMetaBoxesInitialized()
+							&& document.querySelector('.edit-post-meta-boxes-area__container')
+						) {
+							setTimeout(setupMetaInspector, 1);
+							unsubscribeListener();
+						}
+					});
+				} else {
+					setupMetaInspector();
+				}
 			});
 		</script>
 		<?php
