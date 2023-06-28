@@ -206,14 +206,15 @@ class Table {
 				background: transparent;
 				border-bottom: 1px dashed #2271b1;
 				border: none;
-				bottom: 10px;
+				bottom: 8px;
 				color: #2271b1;
 				cursor: pointer;
 				font-weight: 600;
-				left: 10px;
+				left: 50%;
 				opacity: 0;
 				position: absolute;
 				text-shadow: 1px 1px 1px white;
+				transform: translate(-50%, -50%);
 				transition: opacity 500ms ease;
 				z-index: 2;
 			}
@@ -268,13 +269,6 @@ class Table {
 
 							if (expandLink) {
 								expandLink.style.display = 'none';
-							}
-						} else {
-							this.classList.remove('expanded');
-							this.classList.add('collapsed');
-
-							if (expandLink) {
-								expandLink.style.display = '';
 							}
 						}
 					});
