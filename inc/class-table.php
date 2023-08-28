@@ -313,6 +313,9 @@ class Table {
 			</button>
 		HTML;
 
+		// Don't show the copy button for empty values.
+		$copy_button = ! empty( $value ) ? $copy_button : '';
+
 		$expand_button = '<button type="button" class="expand-link" aria-label="' . esc_attr__( 'Expand', 'meta-inspector' ) . '">' . esc_html__( 'Expand', 'meta-inspector' ) . '</button>';
 
 		if ( is_string( $value ) && ! is_numeric( $value ) ) {
