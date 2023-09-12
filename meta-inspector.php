@@ -6,7 +6,7 @@
  * Author URI:      https://alley.com
  * Text Domain:     meta-inspector
  * Domain Path:     /languages
- * Version:         1.1.0
+ * Version:         1.1.1
  *
  * @package         Meta_Inspector
  */
