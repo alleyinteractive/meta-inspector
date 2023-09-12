@@ -39,7 +39,7 @@ class BP_Group extends WP_Object {
 	public function add_meta_boxes() {
 
 		// Store group ID.
-		$this->object_id = $_GET['gid'] ?? 0;
+		$this->object_id = (int) sanitize_text_field( wp_unslash( $_GET['gid'] ?? 0 ) );
 
 		// Group meta.
 		add_meta_box(
