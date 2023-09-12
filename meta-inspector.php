@@ -6,7 +6,7 @@
  * Author URI:      https://alley.com
  * Text Domain:     meta-inspector
  * Domain Path:     /languages
- * Version:         1.1.0
+ * Version:         1.1.1
  *
  * @package         Meta_Inspector
  */
@@ -26,6 +26,7 @@ require_once __DIR__ . '/inc/objects/class-term.php';
 require_once __DIR__ . '/inc/objects/class-user.php';
 require_once __DIR__ . '/inc/objects/class-comment.php';
 require_once __DIR__ . '/inc/objects/class-fm-term-meta.php';
+require_once __DIR__ . '/inc/objects/class-bp-group.php';
 
 // Initalize classes.
 add_action(
@@ -46,5 +47,10 @@ add_action(
 		Comment::instance();
 		// Legacy FM Term Meta Data support.
 		Fm_Term_Meta::instance();
+
+		// BuddyPress support.
+		if ( class_exists( 'BuddyPress' ) ) {
+			BP_Group::instance();
+		}
 	}
 );
