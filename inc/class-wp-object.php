@@ -53,6 +53,10 @@ abstract class WP_Object {
 				$meta = (array) get_comment_meta( $this->object_id );
 				break;
 
+			case 'bp-group':
+				$meta = (array) groups_get_groupmeta( $this->object_id, '', false );
+				break;
+
 			case 'fm-term-meta':
 				if ( function_exists( 'fm_get_term_meta' ) ) {
 					$term = get_term( $this->object_id );

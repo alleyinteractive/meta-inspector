@@ -8,7 +8,7 @@
 namespace Meta_Inspector;
 
 /**
- * Inspect meta for users.
+ * Inspect meta for comments.
  */
 class Comment extends WP_Object {
 	use Singleton;
@@ -28,7 +28,7 @@ class Comment extends WP_Object {
 	}
 
 	/**
-	 * Add meta boxes to the post edit screen.
+	 * Add meta boxes to the comment edit screen.
 	 */
 	public function add_meta_boxes() {
 
@@ -40,7 +40,7 @@ class Comment extends WP_Object {
 		// Store comment ID.
 		$this->object_id = get_comment_ID();
 
-		// Post meta.
+		// Comment meta.
 		add_meta_box(
 			'meta-inspector-comment-meta',
 			__( 'Comment Meta', 'meta-inspector' ),
@@ -51,7 +51,7 @@ class Comment extends WP_Object {
 	}
 
 	/**
-	 * Render a table of post meta.
+	 * Render a table of comment meta.
 	 */
 	public function render_meta() {
 		$this->render_meta_table();
