@@ -37,11 +37,17 @@ class BP_Group extends WP_Object {
 	 * Add meta boxes to the BuddyPress group edit screen.
 	 */
 	public function add_meta_boxes() {
-		// Get screen id.
-		$screen_id = get_current_screen()->id;
+
+		// Ensure the group id is set.
+		if ( ! isset( $_GET['gid'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return;
+		}
 
 		// Store group id.
-		$this->object_id = (int) sanitize_text_field( wp_unslash( $_GET['gid'] ?? 0 ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$this->object_id = (int) sanitize_text_field( wp_unslash( $_GET['gid'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+		// Get screen id.
+		$screen_id = get_current_screen()->id;
 
 		// Group meta.
 		add_meta_box(
@@ -82,6 +88,12 @@ class BP_Group extends WP_Object {
 		// Loop through taxonomies and terms and build data array.
 		foreach ( $taxonomies as $taxonomy ) {
 
+			$taxonomy_object = get_taxonomy( $taxonomy->name );
+
+			if ( empty( $taxonomy_object ) ) {
+				continue;
+			}
+
 			// Reset data for this taxonomy.
 			$data = [];
 
@@ -104,12 +116,6 @@ class BP_Group extends WP_Object {
 					$term->slug,
 					$term->taxonomy,
 				];
-			}
-
-			$taxonomy_object = get_taxonomy( $taxonomy->name );
-
-			if ( empty( $taxonomy_object ) ) {
-				continue;
 			}
 
 			( new Table(

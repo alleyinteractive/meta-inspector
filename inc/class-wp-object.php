@@ -33,6 +33,7 @@ abstract class WP_Object {
 	 * @param bool   $hide_empty Optional flag to hide the meta box if there is no meta.
 	 */
 	public function render_meta_table( string $title = '', bool $hide_empty = false ) {
+
 		// Store meta.
 		$meta = [];
 
