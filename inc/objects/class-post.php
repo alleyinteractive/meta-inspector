@@ -31,6 +31,8 @@ class Post extends WP_Object {
 	 * Add meta boxes to the post edit screen.
 	 */
 	public function add_meta_boxes() {
+		// Get screen id.
+		$screen = get_post_type();
 
 		// Store post id.
 		$this->object_id = get_the_ID();
@@ -40,7 +42,7 @@ class Post extends WP_Object {
 			'meta-inspector-post-meta',
 			__( 'Meta', 'meta-inspector' ),
 			fn () => $this->render_meta_table(),
-			get_post_type()
+			$screen
 		);
 
 		// Post terms.
@@ -48,7 +50,7 @@ class Post extends WP_Object {
 			'meta-inspector-post-terms',
 			__( 'Terms', 'meta-inspector' ),
 			[ $this, 'render_terms' ],
-			get_post_type()
+			$screen
 		);
 	}
 
@@ -57,7 +59,7 @@ class Post extends WP_Object {
 	 */
 	public function render_terms() {
 
-		// Get taxonomies for this post.
+		// Get post taxonomies.
 		$taxonomies = get_post_taxonomies( $this->object_id );
 
 		if ( empty( $taxonomies ) ) {
