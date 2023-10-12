@@ -26,7 +26,7 @@ class Fm_Term_Meta extends Term {
 	 * Render a table of post meta.
 	 */
 	public function add_meta_boxes() {
-		if ( function_exists( 'fm_get_term_meta' ) ) {
+		if ( ! function_exists( 'fm_get_term_meta' ) ) {
 			return;
 		}
 
