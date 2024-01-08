@@ -3,10 +3,9 @@
  * Plugin Name:     Meta Inspector
  * Description:     View various types of meta data about WordPress objects to assist debugging.
  * Author:          alleyinteractive, jameswalterburke
- * Author URI:      https://alley.com
+ * Author URI:      https://alley.com/
  * Text Domain:     meta-inspector
- * Domain Path:     /languages
- * Version:         1.1.1
+ * Version:         1.1.2
  *
  * @package         Meta_Inspector
  */
