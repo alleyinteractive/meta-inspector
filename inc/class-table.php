@@ -99,7 +99,7 @@ class Table {
 		<tbody>
 			<?php
 			array_map(
-				function( $row ) {
+				function ( $row ) {
 					echo '<tr>';
 					array_map(
 						fn ( $data ) => printf( '<td>%s</td>', $this->format_value_for_output( $data ) ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
