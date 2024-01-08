@@ -2,6 +2,10 @@
 
 All notable changes to `meta-inspector` will be documented in this file.
 
+## 1.1.2 - 2024-01-08
+
+- Fix issue with the "Expand" button being copied when clicking the "Copy" button.
+
 ## 1.1.1 - 2023-06-28
 
 - Add click to copy functionality to the meta keys and values.
