@@ -120,8 +120,8 @@ class Table {
 	 */
 	public static function get_max_pre_height(): int {
 		/**
-		 * Filter the max height of a pre element before it is collapsed (in
-		 * pixels) with a default of 400 and a minimum of 100.
+		 * Filter the max height of a pre element before it is collapsed
+		 * (in pixels) with a default of 400px and a minimum of 100px.
 		 *
 		 * @param int $max_pre_height The max height of a pre element before it is collapsed.
 		 */
@@ -224,11 +224,13 @@ class Table {
 				var copyButtons = document.querySelectorAll('.meta-inspector button.copy-button')
 				copyButtons.forEach(function(button) {
 					button.addEventListener('click', function (event) {
-						navigator.clipboard.writeText(this.parentNode.innerText);
+						var pre = this.parentNode.querySelector('pre');
+
+						navigator.clipboard.writeText(pre ? pre.innerText : this.parentNode.innerText);
 						this.classList.add('copied');
 
 						var previousLabel = this.getAttribute('aria-label');
-						this.setAttribute('aria-label', <?php echo wp_json_encode( esc_attr__( 'Copied', 'meta-inspector' ) ); ?>);
+						this.setAttribute('aria-label', <?php echo wp_json_encode( __( 'Copied', 'meta-inspector' ) ); ?>);
 
 						setTimeout(function() {
 							button.classList.remove('copied');
@@ -242,7 +244,7 @@ class Table {
 				// Collapse pre elements that are taller than the max height.
 				document.querySelectorAll('.meta-inspector pre').forEach(function(pre) {
 					var expandLink = pre.parentNode.querySelector('.expand-link');
-					console.log('pre', jQuery(pre).height(), maxPreHeight);
+
 					if (pre.clientHeight < maxPreHeight) {
 						// Remove the expand link if the pre element is not tall enough.
 						if (expandLink) {
