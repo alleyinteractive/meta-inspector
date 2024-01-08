@@ -30,7 +30,7 @@ require_once __DIR__ . '/inc/objects/class-fm-term-meta.php';
 // Initalize classes.
 add_action(
 	'plugins_loaded', // Load early so we can use other hooks.
-	function() {
+	function () {
 		/**
 		 * Filter the capability needed to view the meta boxes.
 		 *
