@@ -1,6 +1,6 @@
 <?php
 /**
- * Inspect groups.
+ * Inspect BuddyPress groups.
  *
  * @package Meta_Inspector
  */
@@ -25,7 +25,7 @@ class BP_Group extends WP_Object {
 	 */
 	protected function __construct() {
 
-		// Bail if BuddyPress groups are not active.
+		// Bail if the BuddyPress groups component is not active.
 		if ( ! bp_is_active( 'groups' ) ) {
 			return;
 		}

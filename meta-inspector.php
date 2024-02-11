@@ -26,6 +26,7 @@ require_once __DIR__ . '/inc/objects/class-user.php';
 require_once __DIR__ . '/inc/objects/class-comment.php';
 require_once __DIR__ . '/inc/objects/class-fm-term-meta.php';
 require_once __DIR__ . '/inc/objects/class-bp-group.php';
+require_once __DIR__ . '/inc/objects/class-bp-activity.php';
 
 // Initalize classes.
 add_action(
@@ -44,12 +45,14 @@ add_action(
 		Term::instance();
 		User::instance();
 		Comment::instance();
+
 		// Legacy FM Term Meta Data support.
 		Fm_Term_Meta::instance();
 
 		// BuddyPress support.
 		if ( class_exists( 'BuddyPress' ) ) {
 			BP_Group::instance();
+			BP_Activity::instance();
 		}
 	}
 );
