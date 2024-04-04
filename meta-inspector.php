@@ -5,7 +5,7 @@
  * Author:          alleyinteractive, jameswalterburke
  * Author URI:      https://alley.com/
  * Text Domain:     meta-inspector
- * Version:         1.1.2
+ * Version:         1.1.3
  *
  * @package         Meta_Inspector
  */

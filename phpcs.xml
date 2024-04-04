@@ -29,7 +29,7 @@
   <exclude-pattern>build/</exclude-pattern>
   <exclude-pattern>vendor/</exclude-pattern>
 
-  <!-- The version set here matches the minimum version tested in buddy.yml. -->
+  <!-- The version set here matches the minimum version tested in the CI. -->
   <config name="minimum_supported_wp_version" value="5.9" />
 
   <!-- Define the prefixes that can be used by the plugin -->
