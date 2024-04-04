@@ -1,28 +1,22 @@
 # Meta Inspector
 
-Stable tag: 1.1.0
-
-Requires at least: 5.9
-
-Tested up to: 5.9
-
-Requires PHP: 7.4
-
-License: GPL v2 or later
-
-Tags: alleyinteractive, meta-inspector
-
-Contributors: alleyinteractive
-
 [![Coding Standards](https://github.com/alleyinteractive/meta-inspector/actions/workflows/coding-standards.yml/badge.svg)](https://github.com/alleyinteractive/meta-inspector/actions/workflows/coding-standards.yml)
 
 Display the meta data for WordPress objects in the admin to assist in debugging.
 
-## Installation
+## Releases
+
+This package is released via Packagist for installation via Composer. It follows semantic versioning conventions.
+
+### Install
+
+Requires Composer and PHP >= `8.0`.
+
+### Use
 
 You can install the package via composer:
 
-```bash
+```sh
 composer require alleyinteractive/meta-inspector
 ```
 
@@ -33,15 +27,16 @@ composer require alleyinteractive/meta-inspector
 Once activated, the plugin will add meta boxes to the following object types
 that expose the meta data for the object:
 
-
 - Comments
 - Terms
 - Posts
 - Users
+- Groups (BuddyPress)
+- Activities (BuddyPress)
 
 ## Testing
 
-Run `composer test` to run tests against the PHP code in the plugin via PHPUnit.
+Run `composer test` to run tests against the Coding Standards.
 
 ## Changelog
 
