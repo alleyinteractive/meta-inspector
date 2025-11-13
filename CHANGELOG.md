@@ -8,6 +8,8 @@ All notable changes to `meta-inspector` will be documented in this file.
 - Adjust taxonomy labels in the meta box to be more user friendly for taxonomies
   without a label provided.
 - Small styling adjustments to match WordPress admin UI better.
+- Sort meta keys alphabetically by default. Added filter
+  `meta_inspector_sort_meta` to disable this behavior.
 
 ## 1.1.3 - 2024-04-04
 
