@@ -141,7 +141,9 @@ class Table {
 			}
 			.meta-inspector table.meta-inspector-table--cols-2 th:first-child,
 			.meta-inspector table.meta-inspector-table--cols-2 td:first-child {
+				font-family: Menlo, Consolas, monaco, monospace;
 				width: 33%;
+				user-select: all;
 			}
 			.meta-inspector table tbody tr td {
 				padding: 10px;
@@ -153,7 +155,7 @@ class Table {
 				opacity: 1;
 			}
 			.meta-inspector table tbody tr td:last-child {
-				background: rgba( 100, 100, 100, .15 );
+				background: rgb(238, 238, 238);
 				line-height: 1.5rem;
 			}
 			.meta-inspector pre {
@@ -165,7 +167,7 @@ class Table {
 				overflow: hidden;
 			}
 			.meta-inspector pre.collapsed::after {
-				background: linear-gradient( to bottom, rgba( 255, 255, 255, 0 ), rgb(218 218 218) );
+				background: linear-gradient( to bottom, rgba( 255, 255, 255, 0 ), rgb(214 214 214) );
 				bottom: 0;
 				content: '';
 				height: 100px;
@@ -203,20 +205,21 @@ class Table {
 				display: none;
 			}
 			.meta-inspector td button.expand-link {
-				background: transparent;
-				border-bottom: 1px dashed #2271b1;
-				border: none;
+				background: white;
 				bottom: 8px;
-				color: #2271b1;
 				cursor: pointer;
-				font-weight: 600;
+				font-weight: normal;
 				left: 50%;
 				opacity: 0;
 				position: absolute;
-				text-shadow: 1px 1px 1px white;
 				transform: translate(-50%, -50%);
 				transition: opacity 500ms ease;
 				z-index: 2;
+			}
+			body:not(.block-editor-page) .meta-inspector td button.expand-link {
+				color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+				border: 1px solid var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+				text-shadow: 1px 1px 1px white;
 			}
 		</style>
 		<script type="text/javascript">
@@ -318,7 +321,7 @@ class Table {
 		// Don't show the copy button for empty string values.
 		$copy_button = '' !== $value ? $copy_button : '';
 
-		$expand_button = '<button type="button" class="expand-link" aria-label="' . esc_attr__( 'Expand', 'meta-inspector' ) . '">' . esc_html__( 'Expand', 'meta-inspector' ) . '</button>';
+		$expand_button = '<button type="button" class="components-button is-secondary expand-link" aria-label="' . esc_attr__( 'Expand', 'meta-inspector' ) . '">' . esc_html__( 'Expand', 'meta-inspector' ) . '</button>';
 
 		if ( is_string( $value ) && ! is_numeric( $value ) ) {
 			// Try to decode JSON and pretty-print it.
