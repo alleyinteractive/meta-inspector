@@ -154,7 +154,7 @@ class Table {
 			.meta-inspector table tbody tr td:hover button {
 				opacity: 1;
 			}
-			.meta-inspector table tbody tr td:last-child {
+			.meta-inspector table:has(tr > td:nth-child(2):last-child) tbody tr td:last-child {
 				background: rgb(238, 238, 238);
 				line-height: 1.5rem;
 			}
