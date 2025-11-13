@@ -2,6 +2,12 @@
 
 All notable changes to `meta-inspector` will be documented in this file.
 
+## 1.2.0
+
+- Bump PHP version requirement to 8.2.
+- Adjust taxonomy labels in the meta box to be more user friendly for taxonomies
+  without a label provided.
+
 ## 1.1.3 - 2024-04-04
 
 ## Added

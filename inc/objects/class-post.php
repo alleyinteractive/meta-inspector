@@ -102,6 +102,14 @@ class Post extends WP_Object {
 				continue;
 			}
 
+			$label = $taxonomy_object->label ?? ucfirst( $taxonomy );
+
+			// For taxonomies with 'Tags' as the label (the default label for
+			// taxonomies), append the taxonomy name to avoid confusion.
+			if ( 'Tags' === $label && 'post_tag' !== $taxonomy ) {
+				$label .= " ({$taxonomy})";
+			}
+
 			( new Table(
 				$data,
 				[
@@ -113,7 +121,7 @@ class Post extends WP_Object {
 				sprintf(
 					/* translators: %s: taxonomy name */
 					__( 'Taxonomy: %s', 'meta-inspector' ),
-					$taxonomy_object->label ?? ucfirst( $taxonomy ),
+					$label,
 				),
 			) )->render();
 		}
