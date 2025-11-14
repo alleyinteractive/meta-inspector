@@ -74,6 +74,15 @@ abstract class WP_Object {
 				break;
 		}
 
+		/**
+		 * Filter to sort the meta keys.
+		 *
+		 * @return bool Whether to sort the meta keys. Default true.
+		 */
+		if ( apply_filters( 'meta_inspector_sort_meta', true ) ) {
+			ksort( $meta );
+		}
+
 		// Build data array [ key, value ].
 		$data = [];
 		foreach ( $meta as $key => $values ) {
