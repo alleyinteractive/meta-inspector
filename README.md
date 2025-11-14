@@ -1,6 +1,6 @@
 # Meta Inspector
 
-[![Coding Standards](https://github.com/alleyinteractive/meta-inspector/actions/workflows/coding-standards.yml/badge.svg)](https://github.com/alleyinteractive/meta-inspector/actions/workflows/coding-standards.yml)
+[![All Pull Request Tests](https://github.com/alleyinteractive/meta-inspector/actions/workflows/all-pr-tests.yml/badge.svg)](https://github.com/alleyinteractive/meta-inspector/actions/workflows/all-pr-tests.yml)
 
 Display the meta data for WordPress objects in the admin to assist in debugging.
 
