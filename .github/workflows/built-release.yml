@@ -15,6 +15,4 @@ jobs:
     name: "Built Branch and Release"
     runs-on: ubuntu-latest
     steps:
-      - uses: alleyinteractive/action-release@develop
-        with:
-          use-changelog-notes: 'false'
+      - uses: alleyinteractive/action-release@fix/issue-16/release-notes-backticks-parentheses-error
