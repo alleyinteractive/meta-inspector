@@ -2,6 +2,11 @@
 
 All notable changes to `meta-inspector` will be documented in this file.
 
+## Unreleased
+
+- Bump PHP version requirement to 8.4 and test against PHP 8.4 and 8.5.
+- Add WordPress `Requires at least`, `Tested up to`, and `Requires PHP` plugin headers.
+
 ## 1.2.0
 
 - Bump PHP version requirement to 8.2.

@@ -6,6 +6,9 @@
  * Author URI:      https://alley.com/
  * Text Domain:     meta-inspector
  * Version:         1.2.0
+ * Requires at least: 6.5
+ * Tested up to:    7.1
+ * Requires PHP:    8.4
  *
  * @package         Meta_Inspector
  */
