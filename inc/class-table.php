@@ -14,10 +14,10 @@ class Table {
 	/**
 	 * Initialize a new instance of this class.
 	 *
-	 * @param array  $data       Table data.
-	 * @param array  $headers    Table headers.
-	 * @param string $title      Table title.
-	 * @param bool   $hide_empty Optional flag to hide the table if there is no data.
+	 * @param array<int, array<int, mixed>> $data       Table data.
+	 * @param array<int, string>            $headers    Table headers.
+	 * @param string                        $title      Table title.
+	 * @param bool                          $hide_empty Optional flag to hide the table if there is no data.
 	 */
 	public function __construct(
 		public array $data,
@@ -30,7 +30,7 @@ class Table {
 	/**
 	 * Output the current state of the table.
 	 */
-	public function render() {
+	public function render(): void {
 		// Render the CSS in the footer.
 		if ( ! has_action( 'admin_footer', [ __CLASS__, 'output_footer' ] ) ) {
 			add_action( 'admin_footer', [ __CLASS__, 'output_footer' ] );
@@ -59,7 +59,7 @@ class Table {
 	/**
 	 * Output the table title.
 	 */
-	public function output_title() {
+	public function output_title(): void {
 		if ( ! empty( $this->title ) ) {
 			printf( '<h3>%s</h3>', esc_html( $this->title ) );
 		}
@@ -68,7 +68,7 @@ class Table {
 	/**
 	 * Output the table head.
 	 */
-	public function output_headers() {
+	public function output_headers(): void {
 		if ( empty( $this->headers ) ) {
 			return;
 		}
@@ -90,7 +90,7 @@ class Table {
 	/**
 	 * Output the table body.
 	 */
-	public function output_data() {
+	public function output_data(): void {
 		if ( empty( $this->data ) ) {
 			return;
 		}
@@ -330,12 +330,16 @@ class Table {
 			$json = json_decode( $value, true );
 
 			if ( json_last_error() === JSON_ERROR_NONE ) {
-				return $copy_button . $expand_button . '<pre>' . esc_html( json_encode( $json, JSON_PRETTY_PRINT ) ) . '</pre>'; // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
+				$pretty_json = json_encode( $json, JSON_PRETTY_PRINT ); // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
+
+				if ( false !== $pretty_json ) {
+					return $copy_button . $expand_button . '<pre>' . esc_html( $pretty_json ) . '</pre>';
+				}
 			}
 		}
 
 		if ( is_scalar( $value ) ) {
-			return $copy_button . esc_html( $value );
+			return $copy_button . esc_html( (string) $value );
 		}
 
 		return $copy_button . $expand_button . '<pre>' . esc_html( var_export( $value, true ) ) . '</pre>'; // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export

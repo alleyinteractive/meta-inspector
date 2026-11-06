@@ -36,18 +36,16 @@ class BP_Activity extends WP_Object {
 	/**
 	 * Add meta boxes to the BuddyPress activity edit screen.
 	 */
-	public function add_meta_boxes() {
+	public function add_meta_boxes(): void {
 
-		// Ensure the activity id is set.
-		if ( ! isset( $_GET['aid'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$this->object_id = $this->get_id_from_request( 'aid' );
+		$screen          = get_current_screen();
+
+		if ( ! $this->object_id || ! $screen ) {
 			return;
 		}
 
-		// Store activity id.
-		$this->object_id = (int) sanitize_text_field( wp_unslash( $_GET['aid'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-		// Get screen id.
-		$screen_id = get_current_screen()->id;
+		$screen_id = $screen->id;
 
 		// Activity meta.
 		add_meta_box(

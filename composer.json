@@ -13,7 +13,9 @@
     "php": "^8.4"
   },
   "require-dev": {
-    "alleyinteractive/alley-coding-standards": "^2.6"
+    "alleyinteractive/alley-coding-standards": "^2.6",
+    "gin0115/buddypress-stubs": "^14.4",
+    "szepeviktor/phpstan-wordpress": "^2.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -26,9 +28,17 @@
   "scripts": {
     "phpcbf": "phpcbf .",
     "phpcs": "phpcs .",
+    "phpstan": "phpstan --memory-limit=1G",
+    "lint": [
+      "@phpcs",
+      "@phpstan"
+    ],
+    "lint:fix": [
+      "@phpcbf"
+    ],
     "release": "npx @alleyinteractive/create-release@latest",
     "test": [
-      "@phpcs"
+      "@lint"
     ]
   }
 }

@@ -25,18 +25,16 @@ class Fm_Term_Meta extends Term {
 	/**
 	 * Render a table of post meta.
 	 */
-	public function add_meta_boxes() {
+	public function add_meta_boxes(): void {
 		if ( ! function_exists( 'fm_get_term_meta' ) ) {
 			return;
 		}
 
-		// Ensure the term_id is set.
-		if ( ! isset( $_GET['tag_ID'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$this->object_id = $this->get_id_from_request( 'tag_ID' );
+
+		if ( ! $this->object_id ) {
 			return;
 		}
-
-		// Store term id.
-		$this->object_id = absint( $_GET['tag_ID'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		// Render table of meta data.
 		$this->render_meta_table( __( 'Fieldmanager Term Meta', 'meta-inspector' ), true );

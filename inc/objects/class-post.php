@@ -30,12 +30,15 @@ class Post extends WP_Object {
 	/**
 	 * Add meta boxes to the post edit screen.
 	 */
-	public function add_meta_boxes() {
-		// Get screen id.
-		$screen = get_post_type();
+	public function add_meta_boxes(): void {
+		$screen  = get_post_type();
+		$post_id = get_the_ID();
 
-		// Store post id.
-		$this->object_id = get_the_ID();
+		if ( false === $screen || false === $post_id ) {
+			return;
+		}
+
+		$this->object_id = $post_id;
 
 		// Post meta.
 		add_meta_box(
@@ -57,7 +60,7 @@ class Post extends WP_Object {
 	/**
 	 * Render a table of post terms.
 	 */
-	public function render_terms() {
+	public function render_terms(): void {
 
 		// Get post taxonomies.
 		$taxonomies = get_post_taxonomies( $this->object_id );
@@ -86,6 +89,10 @@ class Post extends WP_Object {
 				]
 			);
 
+			if ( is_wp_error( $terms ) ) {
+				continue;
+			}
+
 			// Build data array [ id, name, slug, taxonomy ].
 			foreach ( $terms as $term ) {
 				$data[] = [
@@ -102,7 +109,7 @@ class Post extends WP_Object {
 				continue;
 			}
 
-			$label = $taxonomy_object->label ?? ucfirst( $taxonomy );
+			$label = $taxonomy_object->label ?: ucfirst( $taxonomy );
 
 			// For taxonomies with 'Tags' as the label (the default label for
 			// taxonomies), append the taxonomy name to avoid confusion.

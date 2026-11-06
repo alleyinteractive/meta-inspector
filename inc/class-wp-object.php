@@ -9,6 +9,8 @@ namespace Meta_Inspector;
 
 /**
  * Abstract object class.
+ *
+ * @phpstan-consistent-constructor
  */
 abstract class WP_Object {
 
@@ -27,19 +29,24 @@ abstract class WP_Object {
 	protected $object_id;
 
 	/**
+	 * Constructor.
+	 */
+	protected function __construct() {}
+
+	/**
 	 * Helper to automagically render a meta table for the current type and id.
 	 *
 	 * @param string $title Optional table title.
 	 * @param bool   $hide_empty Optional flag to hide the meta box if there is no meta.
 	 */
-	public function render_meta_table( string $title = '', bool $hide_empty = false ) {
+	public function render_meta_table( string $title = '', bool $hide_empty = false ): void {
 
 		// Store meta.
 		$meta = [];
 
 		switch ( $this->type ) {
 			case 'post':
-				$meta = get_post_meta( $this->object_id );
+				$meta = (array) get_post_meta( $this->object_id );
 				break;
 
 			case 'term':
@@ -65,6 +72,10 @@ abstract class WP_Object {
 			case 'fm-term-meta':
 				if ( function_exists( 'fm_get_term_meta' ) ) {
 					$term = get_term( $this->object_id );
+					if ( ! $term instanceof \WP_Term ) {
+						return;
+					}
+
 					$meta = (array) fm_get_term_meta( $this->object_id, $term->taxonomy );
 					if ( empty( $meta ) ) {
 						// Do not display FM Term Meta table on terms without this meta.
@@ -86,8 +97,8 @@ abstract class WP_Object {
 		// Build data array [ key, value ].
 		$data = [];
 		foreach ( $meta as $key => $values ) {
-			foreach ( $values as $value ) {
-				if ( is_serialized( $value ) ) {
+			foreach ( (array) $values as $value ) {
+				if ( is_string( $value ) && is_serialized( $value ) ) {
 					$value = maybe_unserialize( $value );
 				}
 
@@ -105,5 +116,17 @@ abstract class WP_Object {
 			$title,
 			$hide_empty,
 		) )->render();
+	}
+
+	/**
+	 * Read a numeric object ID from the current request's query string.
+	 *
+	 * @param string $key Query string key.
+	 * @return int The ID, or 0 when it is missing or not numeric.
+	 */
+	protected function get_id_from_request( string $key ): int {
+		$value = $_GET[ $key ] ?? 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+
+		return is_numeric( $value ) ? absint( $value ) : 0;
 	}
 }

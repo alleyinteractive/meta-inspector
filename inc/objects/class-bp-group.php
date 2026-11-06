@@ -36,18 +36,16 @@ class BP_Group extends WP_Object {
 	/**
 	 * Add meta boxes to the BuddyPress group edit screen.
 	 */
-	public function add_meta_boxes() {
+	public function add_meta_boxes(): void {
 
-		// Ensure the group id is set.
-		if ( ! isset( $_GET['gid'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$this->object_id = $this->get_id_from_request( 'gid' );
+		$screen          = get_current_screen();
+
+		if ( ! $this->object_id || ! $screen ) {
 			return;
 		}
 
-		// Store group id.
-		$this->object_id = (int) sanitize_text_field( wp_unslash( $_GET['gid'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-		// Get screen id.
-		$screen_id = get_current_screen()->id;
+		$screen_id = $screen->id;
 
 		// Group meta.
 		add_meta_box(
@@ -71,7 +69,7 @@ class BP_Group extends WP_Object {
 	/**
 	 * Render a table of group terms.
 	 */
-	public function render_terms() {
+	public function render_terms(): void {
 
 		// Get group taxonomies.
 		$taxonomies = get_object_taxonomies( 'bp_group', 'objects' );
@@ -106,9 +104,13 @@ class BP_Group extends WP_Object {
 
 			// Build data array [ id, name, slug, taxonomy ].
 			foreach ( $terms as $term ) {
+				if ( ! $term instanceof \WP_Term ) {
+					continue;
+				}
 
 				// Get singular name if available.
-				$term_name = (string) get_term_meta( $term->term_id, 'bp_type_singular_name', true ) ?: $term->name;
+				$singular_name = get_term_meta( $term->term_id, 'bp_type_singular_name', true );
+				$term_name     = is_string( $singular_name ) && '' !== $singular_name ? $singular_name : $term->name;
 
 				$data[] = [
 					$term->term_id,
@@ -129,7 +131,7 @@ class BP_Group extends WP_Object {
 				sprintf(
 					/* translators: %s: taxonomy name */
 					__( 'Taxonomy: %s', 'meta-inspector' ),
-					$taxonomy_object->label ?? ucfirst( $taxonomy ),
+					$taxonomy_object->label ?: ucfirst( $taxonomy->name ),
 				),
 			) )->render();
 		}
