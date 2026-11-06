@@ -13,14 +13,15 @@
     "php": "^8.4"
   },
   "require-dev": {
-    "alleyinteractive/alley-coding-standards": "^2.0"
+    "alleyinteractive/alley-coding-standards": "^2.6"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
-    }
+    },
+    "sort-packages": true
   },
   "scripts": {
     "phpcbf": "phpcbf .",
