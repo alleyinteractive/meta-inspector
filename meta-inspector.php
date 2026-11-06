@@ -8,7 +8,7 @@
  * Version:         1.2.0
  * Requires at least: 6.5
  * Tested up to:    7.1
- * Requires PHP:    8.4
+ * Requires PHP:    8.3
  *
  * @package         Meta_Inspector
  */
