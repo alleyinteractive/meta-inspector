@@ -22,7 +22,7 @@ jobs:
     # Define a matrix of PHP/WordPress versions to test against
     strategy:
       matrix:
-        php: [8.4]
+        php: [8.3, 8.4, 8.5]
         wordpress: ["latest"]
     runs-on: ubuntu-latest
     # Cancel any existing runs of this workflow
@@ -32,7 +32,7 @@ jobs:
     # Name the job in the matrix
     name: "PR Tests PHP ${{ matrix.php }} WordPress ${{ matrix.wordpress }}"
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Run General Tests
         # See https://github.com/alleyinteractive/action-test-general for more options
@@ -45,6 +45,8 @@ jobs:
           php-version: '${{ matrix.php }}'
           wordpress-version: '${{ matrix.wordpress }}'
           skip-wordpress-install: 'true'
+          # With no runtime dependencies, `composer audit --no-dev` finds no packages and exits 1.
+          audit-command: 'composer audit --locked --ansi --no-interaction'
   # This required job ensures that all PR checks have passed before merging.
   all-pr-checks-passed:
     name: All PR checks passed

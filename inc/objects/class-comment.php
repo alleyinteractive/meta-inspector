@@ -30,7 +30,7 @@ class Comment extends WP_Object {
 	/**
 	 * Add meta boxes to the comment edit screen.
 	 */
-	public function add_meta_boxes() {
+	public function add_meta_boxes(): void {
 
 		// Bail if we don't have comments.
 		if ( ! have_comments() ) {
@@ -38,7 +38,7 @@ class Comment extends WP_Object {
 		}
 
 		// Store comment ID.
-		$this->object_id = get_comment_ID();
+		$this->object_id = (int) get_comment_ID();
 
 		// Comment meta.
 		add_meta_box(
@@ -53,7 +53,7 @@ class Comment extends WP_Object {
 	/**
 	 * Render a table of comment meta.
 	 */
-	public function render_meta() {
+	public function render_meta(): void {
 		$this->render_meta_table();
 	}
 }

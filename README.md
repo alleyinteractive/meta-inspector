@@ -10,7 +10,7 @@ This package is released via Packagist for installation via Composer. It follows
 
 ### Install
 
-Requires Composer and PHP >= `8.2`.
+Requires Composer and PHP >= `8.3`.
 
 ### Use
 

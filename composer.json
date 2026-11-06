@@ -10,24 +10,35 @@
   ],
   "homepage": "https://github.com/alleyinteractive/meta-inspector/",
   "require": {
-    "php": "^8.2"
+    "php": "^8.3"
   },
   "require-dev": {
-    "alleyinteractive/alley-coding-standards": "^2.0"
+    "alleyinteractive/alley-coding-standards": "^2.6",
+    "gin0115/buddypress-stubs": "^14.4",
+    "szepeviktor/phpstan-wordpress": "^2.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
-    }
+    },
+    "sort-packages": true
   },
   "scripts": {
     "phpcbf": "phpcbf .",
     "phpcs": "phpcs .",
+    "phpstan": "phpstan --memory-limit=1G",
+    "lint": [
+      "@phpcs",
+      "@phpstan"
+    ],
+    "lint:fix": [
+      "@phpcbf"
+    ],
     "release": "npx @alleyinteractive/create-release@latest",
     "test": [
-      "@phpcs"
+      "@lint"
     ]
   }
 }

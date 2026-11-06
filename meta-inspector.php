@@ -5,7 +5,10 @@
  * Author:          alleyinteractive, jameswalterburke
  * Author URI:      https://alley.com/
  * Text Domain:     meta-inspector
- * Version:         1.2.0
+ * Version:         1.3.0
+ * Requires at least: 6.5
+ * Tested up to:    7.1
+ * Requires PHP:    8.3
  *
  * @package         Meta_Inspector
  */

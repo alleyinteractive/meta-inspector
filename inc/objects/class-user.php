@@ -31,16 +31,18 @@ class User extends WP_Object {
 	/**
 	 * Add meta boxes to the post edit screen.
 	 */
-	public function add_meta_boxes() {
+	public function add_meta_boxes(): void {
 
 		if (
 			defined( 'IS_PROFILE_PAGE' )
 			&& IS_PROFILE_PAGE
 		) {
 			$this->object_id = get_current_user_id();
-		} elseif ( isset( $_GET['user_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$this->object_id = absint( $_GET['user_id'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		} else {
+			$this->object_id = $this->get_id_from_request( 'user_id' );
+		}
+
+		if ( ! $this->object_id ) {
 			return;
 		}
 
