@@ -2,10 +2,12 @@
 
 All notable changes to `meta-inspector` will be documented in this file.
 
-## Unreleased
+## 1.3.0 - 2026-11-06
 
 - Bump PHP version requirement to 8.3 and test against PHP 8.3, 8.4, and 8.5.
 - Add WordPress `Requires at least`, `Tested up to`, and `Requires PHP` plugin headers.
+- Fall back to the taxonomy name for taxonomies with an empty label.
+- Ignore non-numeric object IDs in the request instead of rendering an empty table.
 
 ## 1.2.0
 
