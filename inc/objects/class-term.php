@@ -32,21 +32,19 @@ class Term extends WP_Object {
 	 *
 	 * @param string $taxonomy Taxonomy slug.
 	 */
-	public function tax_edit_form_action( $taxonomy ) {
+	public function tax_edit_form_action( string $taxonomy ): void {
 		add_action( "{$taxonomy}_edit_form", [ $this, 'add_meta_boxes' ], 1000 );
 	}
 
 	/**
 	 * Render a table of post meta.
 	 */
-	public function add_meta_boxes() {
-		// Ensure the term_id is set.
-		if ( ! isset( $_GET['tag_ID'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	public function add_meta_boxes(): void {
+		$this->object_id = $this->get_id_from_request( 'tag_ID' );
+
+		if ( ! $this->object_id ) {
 			return;
 		}
-
-		// Store term id.
-		$this->object_id = absint( $_GET['tag_ID'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		// Render table of meta data.
 		$this->render_meta_table( __( 'Term Meta', 'meta-inspector' ) );
